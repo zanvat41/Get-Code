@@ -1,0 +1,98 @@
+Database:
+
+BENCHMARK 1:
+
+USER
+	First Name, Last Name, Email
+
+ADMIN -- ONLY ONE OBJECT
+    Username, Password
+
+TUTORIAL
+	Id, Tutorial Name, Programming Language, Creator (email), Class Code, Archived
+
+TUTORIAL_TEXT and TUTORIAL_HEADING
+    Tutorial Id, Content, Order
+
+TUTORIAL_PICTURE and TUTORIAL_VIDEO
+    Tutorial Id, Link, Order
+
+TUTORIAL_QUESTIONS
+    Tutorial Id, Question Id, Question, Question Type, Choices, Answer
+
+TUTORIAL_CODE
+    Tutorial Id, QId, Language, Description, Code, Inputs, Outputs
+
+PROGRESSION
+	Email, Tutorial Id, Class Code, Score, Attempts, ...
+
+ID
+    Number
+
+___________________________________________________________________________________________
+
+OTHER:
+
+TEACHER
+	Email
+
+STUDENT
+	Email
+
+TEACHER_CLASS
+    Email, ClassCode, ClassName, Locked
+
+STUDENT_CLASS
+    Email, ClassCode
+
+
+
+USE CASES
+____________________________________________________________________________________________
+1. user joins
+	user is entered into the database as a reg. user
+
+2. user decides to be teacher
+	check if user is not a student
+		if student, deny
+		else...
+			class code is generated
+			user saves the class code
+			user is entered into teacher table in db
+
+3. user decides to be a student
+	check if user is not a teacher
+		if teacher, deny
+		else...
+			user enters class code
+			once entered, user is entered into student table in db
+
+4. teacher decides to teach another class
+	do the same thing as use case 2 as another separate entry, since that teacher can teach multiple classes
+
+5. student decides to enter another class
+	do the same thing as use case 3 as another separate entry, since that student can be in multiple classes
+
+6. teacher creates tutorial for their class
+	teacher fills out the form
+		form contains...
+			class code for the class the tutorial is for
+			questions
+	once they submit, entered into tutorial table in db
+		name, programming language, creator, class code
+
+7. teacher ends a class
+	teacher clicks end class button wherever that may be
+	class is archived
+		set the tutorials w/ the class code of that class to "archived"
+			students & teachers (maybe) can see the tutorial but cannot access it
+			teacher can still see the class roster
+		teachers and students in their respective tables are not touched
+
+8. teacher deletes class
+	teacher clicks deletes class button wherever that may be
+	delete all entries with class code in this order of table
+		tutorial
+		progression
+		student
+		teacher
